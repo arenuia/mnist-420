@@ -1,7 +1,7 @@
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import numpy as np
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Dense, Conv2D, Dropout, Flatten, MaxPooling2D
 
 (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
@@ -36,3 +36,12 @@ model.add(Flatten()) # Flattening the 2D arrays for fully connected layers
 model.add(Dense(128, activation=tf.nn.relu))
 model.add(Dropout(0.2))
 model.add(Dense(10,activation=tf.nn.softmax))
+
+# Compile and fit model
+model.compile(optimizer = 'adam',
+              loss = 'sparse_categorical_crossentropy',
+              metrics = ['accuracy'])
+# model.fit(x = x_train, y = y_train, epochs = 10)
+# model.save("wowow_amodel4me.h5")
+# load the model
+model = load_model("wowow_amodel4me.h5")
