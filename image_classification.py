@@ -41,7 +41,20 @@ model.add(Dense(10,activation=tf.nn.softmax))
 model.compile(optimizer = 'adam',
               loss = 'sparse_categorical_crossentropy',
               metrics = ['accuracy'])
-# model.fit(x = x_train, y = y_train, epochs = 10)
-# model.save("wowow_amodel4me.h5")
+# saving the model for consistency
+epoch_num = 5
+model.fit(x = x_train, y = y_train, epochs = epoch_num)
+model.save("wowow_amodel" + str(epoch_num) + "me.h5")
 # load the model
-model = load_model("wowow_amodel4me.h5")
+model = load_model("wowow_amodel" + str(epoch_num) + "me.h5")
+
+model.summary()
+
+# Evaluate model
+model.evaluate(x_test, y_test)
+
+# Evaluate specific value
+image_index = 7789
+plt.imshow(x_test[image_index].reshape(28, 28),cmap='Greys')
+pred = model.predict(x_test[image_index].reshape(1, 28, 28, 1))
+print(pred.argmax())
