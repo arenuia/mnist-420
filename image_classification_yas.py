@@ -43,8 +43,8 @@ model.compile(optimizer = 'adam',
               metrics = ['accuracy'])
 # saving the model for consistency
 epoch_num = 5
-model.fit(x = x_train, y = y_train, epochs = epoch_num)
-model.save("wowow_amodel" + str(epoch_num) + "me.h5")
+# model.fit(x = x_train, y = y_train, epochs = epoch_num)
+# model.save("wowow_amodel" + str(epoch_num) + "me.h5")
 # load the model
 model = load_model("wowow_amodel" + str(epoch_num) + "me.h5")
 
@@ -58,6 +58,7 @@ image_index = 7789
 plt.imshow(x_test[image_index].reshape(28, 28),cmap='Greys')
 pred = model.predict(x_test[image_index].reshape(1, 28, 28, 1))
 print(pred.argmax())
+
 
 
 ######### THE AWESOME (kaggle top) WAY #########
@@ -83,12 +84,12 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ReduceLROnPlateau
 
 
-sns.set(style='white', context='notebook', palette='deep')
+sns.set(style='white', palette='deep')
 
 ### Load Data
 # Load the data
-train = pd.read_csv("../input/train.csv")
-test = pd.read_csv("../input/test.csv")
+train = pd.read_csv("train.csv")
+test = pd.read_csv("test.csv")
 
 Y_train = train["label"]
 
@@ -98,7 +99,7 @@ X_train = train.drop(labels = ["label"],axis = 1)
 # free some space
 del train
 
-g = sns.countplot(Y_train)
+sns.countplot(Y_train)
 
 Y_train.value_counts()
 
@@ -162,7 +163,7 @@ learning_rate_reduction = ReduceLROnPlateau(monitor='val_acc',
                                             factor=0.5,
                                             min_lr=0.00001)
 
-epochs = 1 # Turn epochs to 30 to get 0.9967 accuracy
+epochs = 2 # Turn epochs to 30 to get 0.9967 accuracy
 batch_size = 86
 
 
@@ -186,11 +187,12 @@ datagen = ImageDataGenerator(
 datagen.fit(X_train)
 
 # Fit the model
-history = model.fit_generator(datagen.flow(X_train,Y_train, batch_size=batch_size),
-                              epochs = epochs, validation_data = (X_val,Y_val),
-                              verbose = 2, steps_per_epoch=X_train.shape[0] // batch_size
-                              , callbacks=[learning_rate_reduction])
+# model.fit_generator(datagen.flow(X_train,Y_train, batch_size=batch_size),
+#                               epochs = epochs, validation_data = (X_val,Y_val),
+#                               verbose = 2, steps_per_epoch=X_train.shape[0] // batch_size
+#                               , callbacks=[learning_rate_reduction])
 
+model.save("thnksfrthmmrs.h5")
 ### Evaluate model
 # Training and validation curves
 fig, ax = plt.subplots(2,1)
